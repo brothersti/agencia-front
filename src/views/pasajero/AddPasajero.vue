@@ -17,7 +17,7 @@
                     <input v-model="Nombre" type="text" class="form-control" placeholder="Nombre">
                 </div>
                 <div class="mb-2">
-                    <input v-model="Apellido" type="text" class="form-control" placeholder="Aplelido">
+                    <input v-model="Asiento" type="text" class="form-control" placeholder="Asiento">
                 </div>
                 <div class="mb-2">
                     <div class="input-group">
@@ -28,7 +28,7 @@
                         <div class="input-group-append">
                             <button class="btn btn-success" type="button" v-on:click="agregarBus()"> <i class="fa fa-plus"></i> </button>
                         </div>
-                    </div>
+                    </div>                  
                 </div>
                 <div class="mb-2">
                     <div class="input-group">
@@ -43,15 +43,13 @@
                 </div>
                 <div class="mb-2">
                     <button type="button" v-on:click="GuardarDatos()" class="btn btn-outline-success">Guardar</button>
-                    <router-link to="/chofer" class="btn btn-outline-danger" style="margin-left:3px;">Cancelar</router-link>
+                    <router-link to="/pasajero" class="btn btn-outline-danger" style="margin-left:3px;">Cancelar</router-link>
                 </div>
             </form>
         </div>
         <div class="col-md-4">
             <AddTrayectoModal :isActiveModalTrayecto="isActiveModalTrayecto" />
-            
         </div>
-
     </div>
 </div>
 </template>
@@ -65,7 +63,7 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 
 export default {
-    name: "AddChofer",
+    name: "AddPasajero",
     components: {
         ModulesHeader,
         AddBusModal,
@@ -73,8 +71,8 @@ export default {
     },
     data() {
         return {
-            nombre: "Agregar nuevo chofer",
-            descripcion: "Aqui se podrá dar de alta un nuevo chofer",
+            nombre: "Agregar nuevo pasajero",
+            descripcion: "Aqui se podrá dar de alta un nuevo pasajero",
             errorMessage: '',
             isActive: false,
             isActiveModalTrayecto: false,
@@ -83,17 +81,19 @@ export default {
             Horario: null,
             IdBus_id: null,
             Nombre: null,
-            Apellido: null,
+            Asiento: null,
+            IdBus: null,
+            IdTrayecto: null,
+            errors: [],
             buses: [],
-            trayectos: [],
-            errors: []
+            trayectos: []
         };
     },
     methods: {
         getAllBuses() {
             try {
                 const busesRes = axios
-                    .get("http://127.0.0.1:8000/api/busChofer/")
+                    .get("http://127.0.0.1:8000/api/buses/")
                     .then((response) => (this.buses = response.data.buses))
                     .then((res) => console.log(res));
 
@@ -116,10 +116,10 @@ export default {
                 this.errors = [];
 
                 if (!this.Nombre) {
-                    this.errors.push('El nombre del chofer es obligatorio.');
+                    this.errors.push('El nombre del pasajero es obligatorio.');
                 }
-                if (!this.Apellido) {
-                    this.errors.push('El campo apellido es obligatorio.');
+                if (!this.Asiento) {
+                    this.errors.push('El campo asiento es obligatorio.');
                 }
                 if (!this.IdBus_id) {
                     this.errors.push('El campo id bus es obligatorio.');
@@ -128,20 +128,20 @@ export default {
                     this.errors.push('El campo id Trayecto es obligatorio.');
                 }
 
-                var chofer = {
+                var pasajero = {
                     Nombre: this.Nombre,
-                    Apellido: this.Apellido,
+                    Asiento: this.Asiento,
                     IdBus_id: this.IdBus_id,
                     IdTrayecto_id: this.IdTrayecto_id
                 };
 
                 if (this.errors.length <= 0) {
 
-                    const choferRes = await axios.post(`http://127.0.0.1:8000/api/choferes/`, chofer)
+                    const pasajeroRes = await axios.post(`http://127.0.0.1:8000/api/pasajeros/`, pasajero)
                         .then((response) => {
-                            (this.choferRes = response.data)
+                            (this.pasajeroRes = response.data)
                             Swal.fire('Guardado', 'Entrada registrada con éxito', 'success')
-                            this.$router.push('/chofer');
+                            this.$router.push('/pasajero');
                         })
                         .catch(function (error) {
                             if (error.response) {
@@ -193,11 +193,11 @@ export default {
                 Swal.fire('Guardado', 'Entrada registrada con éxito', 'success')
             }
         },
-        async mostrarModalTrayecto() {
+         async mostrarModalTrayecto() {
             this.isActiveModalTrayecto = !this.isActiveModalTrayecto
             console.log(this.isActiveModalTrayecto)
         },
-        async AgregarTrayecto() {
+         async AgregarTrayecto() {
             try {
                 this.errors = [];
 
@@ -251,15 +251,5 @@ export default {
 };
 </script>
 
-<style scoped>
-.modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 300px;
-    width: 400px;
-    text-align: center;
-    background: gray;
-}
+<style lang="">
 </style>

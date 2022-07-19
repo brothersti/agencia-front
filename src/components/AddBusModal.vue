@@ -1,10 +1,8 @@
 <template lang="">
-<ModulesHeader :nombre="nombre" :descripcion="descripcion" />
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-4">
-        </div>
-        <div class="col-md-4">
+<!--  -->
+<div>
+    <teleport to="#destination" :disabled="isActive">
+        <div v-show="isActive">
             <form>
                 <p v-if="errors.length">
                     <b>Por favor, corrija el(los) siguiente(s) error(es):</b>
@@ -20,36 +18,32 @@
                 </div>
                 <div class="mb-2">
                     <button type="button" v-on:click="GuardarDatos()" class="btn btn-outline-success">Guardar</button>
-                    <router-link to="/bus" class="btn btn-outline-danger" style="margin-left:3px;">Cancelar</router-link>
+                    <button type="button" v-on:click="Cancelar()" class="btn btn-outline-danger" style="margin-left:3px;">Cancelar</button>
                 </div>
             </form>
         </div>
-        <div class="col-md-4"></div>
-    </div>
+    </teleport>
 </div>
 </template>
 
 <script>
-import ModulesHeader from "../../components/ModulesHeader.vue";
 import axios from "axios";
 import Swal from 'sweetalert2';
 
 export default {
-    name: "AddBus",
-    components: {
-        ModulesHeader,
+    props: {
+        isActive: Boolean
     },
     data() {
         return {
-            nombre: "Agregar nuevo bus",
-            descripcion: "Aqui se podrá dar de alta un nuevo bus",
             errorMessage: '',
             NumeroBus: null,
             Capacidad: 10,
+            AsientoRestantes:0,
             errors: []
         };
     },
-    methods: {
+    methods: {       
         async GuardarDatos() {
             this.errors = [];
 
@@ -73,12 +67,16 @@ export default {
 
                 console.log(busRes)
                 Swal.fire('Guardado', 'Entrada registrada con éxito', 'success')
-                this.$router.push('/bus');
+                window.location.reload()
             }
+        },
+        Cancelar(){
+           window.location.reload()
         }
     },
-};
+}
 </script>
 
-<style lang="">
+<style>
+
 </style>

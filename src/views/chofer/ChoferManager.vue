@@ -19,8 +19,8 @@
             <td>{{chofer.IdChofer}}</td>
             <td>{{chofer.Nombre}}</td>
             <td>{{chofer.Apellido}}</td>
-            <td>{{chofer.IdBus}}</td>
-            <td>{{chofer.IdTrayecto}}</td>
+            <td>{{chofer.IdBus_id}}</td>
+            <td>{{chofer.IdTrayecto_id}}</td>
             <td>
                 <router-link :to="`/chofer/edit/${chofer.IdChofer}`" class="btn btn-warning"><i class="fa fa-pen"></i></router-link>
                 <button v-on:click="handleClickDelete(chofer.IdChofer)" class="btn btn-danger" style="margin-left: 2px;"><i class="fa fa-trash"></i></button>

@@ -13,20 +13,20 @@
                     </ul>
                 </p>
                 <div class="mb-2">
-                    <label>Id bus</label>
-                    <input v-model="bus.IdBus" type="text" class="form-control" placeholder="Id del bus" readonly>
+                    <label>Id trayecto</label>
+                    <input v-model="trayecto.IdTrayecto" type="text" class="form-control" placeholder="Id del trayecto" readonly>
                 </div>
                 <div class="mb-2">
-                    <label>Número bus</label>
-                    <input v-model="bus.NumeroBus" type="text" class="form-control" placeholder="Número del bus">
+                    <label>Nombre trayecto</label>
+                    <input v-model="trayecto.NombreTrayecto" type="text" class="form-control" placeholder="Nombre trayecto">
                 </div>
                 <div class="mb-2">
-                    <label>Capacidad</label>
-                    <input v-model="bus.Capacidad" type="number" class="form-control" placeholder="Total de asientos">
+                    <label>Horario</label>
+                    <Datepicker v-model="trayecto.Horario" locale="es-MX"></Datepicker>
                 </div>
                 <div class="mb-2">
                     <button type="button" v-on:click="ActualizarDatos()" class="btn btn-outline-success">Actualizar</button>
-                    <router-link to="/bus" class="btn btn-outline-danger" style="margin-left:3px;">Cancelar</router-link>
+                    <router-link to="/trayecto" class="btn btn-outline-danger" style="margin-left:3px;">Cancelar</router-link>
                 </div>
             </form>
         </div>
@@ -47,47 +47,48 @@ export default {
     },
     data() {
         return {
-            nombre: "Editar bus",
-            descripcion: "Aqui se podrá editar un bus",
+            nombre: "Editar trayecto",
+            descripcion: "Aqui se podrá editar un trayecto",
             errorMessage: '',
-            id: this.$route.params.busId,
-            NumeroBus: null,
-            Capacidad: null,
-            bus: {},
+            id: this.$route.params.trayectoId,
+            IdTrayecto: null,
+            NombreTrayecto: null,
+            Horario: null,
+            trayecto: {},
             errors: []
         };
     },
     created: async function () {
 
         var res = await axios
-            .get(`http://127.0.0.1:8000/api/buses/${this.id}`);
+            .get(`http://127.0.0.1:8000/api/trayectos/${this.id}`)
 
-        this.bus = res.data.bus;
+        this.trayecto = res.data.trayecto;
+        console.log(this.id)
     },
     methods: {
         async ActualizarDatos() {
             this.errors = [];
 
-            if (!this.bus.NumeroBus) {
+            if (!this.trayecto.NombreTrayecto) {
                 this.errors.push('El número del bus es obligatorio.');
             }
-            if (!this.bus.Capacidad) {
-                this.errors.push('El campo capacidad es obligatorio.');
+            if (!this.trayecto.Horario) {
+                this.errors.push('El campo total asiento es obligatorio.');
             }
 
-            var busJson = {
-                BusId: this.id,
-                NumeroBus: this.bus.NumeroBus,
-                Capacidad: this.bus.Capacidad
+            var trayectoJson = {
+                NombreTrayecto: this.trayecto.NombreTrayecto,
+                Horario: this.trayecto.Horario
             };
 
             if (this.errors.length <= 0) {
 
-                const busRes = await axios.put(`http://127.0.0.1:8000/api/buses/${this.id}`, busJson)
-                    .then((response) => (this.busRes = response.data));
+                const trayectoRes = await axios.put(`http://127.0.0.1:8000/api/trayectos/${this.id}`, trayectoJson)
+                    .then((response) => (this.trayectoRes = response.data));
 
                 Swal.fire('Guardado', 'Entrada actualizada con éxito', 'success')
-                this.$router.push('/bus');
+                this.$router.push('/trayecto');
             }
         }
     },

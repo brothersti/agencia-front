@@ -13,28 +13,28 @@
                     </ul>
                 </p>
                 <div class="mb-2">
-                    <label>Id chofer</label>
-                    <input v-model="chofer.IdChofer" type="text" class="form-control" placeholder="Id del chofer" readonly>
+                    <label>Id pasajero</label>
+                    <input v-model="pasajero.IdPasajero" type="text" class="form-control" placeholder="Id del pasajero" readonly>
                 </div>
                 <div class="mb-2">
                     <label>Nombre</label>
-                    <input v-model="chofer.Nombre" type="text" class="form-control" placeholder="Nombre">
+                    <input v-model="pasajero.Nombre" type="text" class="form-control" placeholder="Nombre">
                 </div>
                 <div class="mb-2">
-                    <label>Apellido</label>
-                    <input v-model="chofer.Apellido" type="text" class="form-control" placeholder="Aplelido">
+                    <label>Asiento</label>
+                    <input v-model="pasajero.Asiento" type="text" class="form-control" placeholder="Asiento">
                 </div>
                 <div class="mb-2">
                     <label>Id bus</label>
-                    <input v-model="chofer.IdBus_id" type="number" class="form-control" placeholder="Id del bus">
+                    <input v-model="pasajero.IdBus_id" type="number" class="form-control" placeholder="Id del bus">
                 </div>
                 <div class="mb-2">
                     <label>Id trayecto</label>
-                    <input v-model="chofer.IdTrayecto_id" type="number" class="form-control" placeholder="Id del trayecto">
+                    <input v-model="pasajero.IdTrayecto_id" type="number" class="form-control" placeholder="Id del trayecto">
                 </div>
                 <div class="mb-2">
                     <button type="button" v-on:click="ActualizarDatos()" class="btn btn-outline-success">Actualizar</button>
-                    <router-link to="/chofer" class="btn btn-outline-danger" style="margin-left:3px;">Cancelar</router-link>
+                    <router-link to="/pasajero" class="btn btn-outline-danger" style="margin-left:3px;">Cancelar</router-link>
                 </div>
             </form>
         </div>
@@ -49,64 +49,64 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 
 export default {
-    name: "EditBus",
+    name: "EditPasajero",
     components: {
         ModulesHeader,
     },
     data() {
         return {
-            nombre: "Editar chofer",
-            descripcion: "Aqui se podrá editar un chofer",
+            nombre: "Editar Pasajero",
+            descripcion: "Aqui se podrá editar un pasajero",
             errorMessage: '',
-            id: this.$route.params.choferId,
+            id: this.$route.params.pasajeroId,
             Nombre: null,
-            Apellido: null,
+            Asiento: null,
             IdBus: null,
             IdTrayecto: null,
-            chofer: {},
+            pasajero: {},
             errors: []
         };
     },
     created: async function () {
 
         var res = await axios
-            .get(`http://127.0.0.1:8000/api/choferes/${this.id}`);
+            .get(`http://127.0.0.1:8000/api/pasajeros/${this.id}`);
 
-        this.chofer = res.data.chofer;
+        this.pasajero = res.data.pasajero;
     },
     methods: {
         async ActualizarDatos() {
             this.errors = [];
 
-            if (!this.chofer.Nombre) {
-                this.errors.push('El nombre del chofer es obligatorio.');
+            if (!this.pasajero.Nombre) {
+                this.errors.push('El nombre del pasajero es obligatorio.');
             }
-            if (!this.chofer.Apellido) {
-                this.errors.push('El campo apellido es obligatorio.');
+            if (!this.pasajero.Asiento) {
+                this.errors.push('El campo asiento es obligatorio.');
             }
-            if (!this.chofer.IdBus) {
+            if (!this.pasajero.IdBus) {
                 this.errors.push('El campo id bus es obligatorio.');
             }
-            if (!this.chofer.IdTrayecto) {
+            if (!this.pasajero.IdTrayecto) {
                 this.errors.push('El campo id Trayecto es obligatorio.');
             }
 
-            var choferJson = {
-                Nombre: this.chofer.Nombre,
-                Apellido: this.chofer.Apellido,
-                IdBus: this.chofer.IdBus,
-                IdTrayecto: this.chofer.IdTrayecto
+            var pasajeroJson = {
+                Nombre: this.pasajero.Nombre,
+                Asiento: this.pasajero.Asiento,
+                IdBus: this.pasajero.IdBus,
+                IdTrayecto: this.pasajero.IdTrayecto
             };
 
             if (this.errors.length <= 0) {
 
-                const choferRes = await axios.put(`http://127.0.0.1:8000/api/choferes/${this.id}`, choferJson)
-                    .then((response) => (this.choferRes = response.data))
+                const pasajeroRes = await axios.put(`http://127.0.0.1:8000/api/pasajeros/${this.id}`, pasajeroJson)
+                    .then((response) => (this.pasajeroRes = response.data))
                     .catch(function (error) {
                         if (error.response) {
                             console.log(error.response.status);
                             if (error.response.status == 500) {
-                                Swal.fire('Error', 'Entrada no registrada, el id bus esta duplicado', 'error')
+                                Swal.fire('Error', 'Entrada no registrada', 'error')
                             }
                         } else if (error.request) {
                             console.log(error.request);
@@ -119,7 +119,7 @@ export default {
                     });
 
                 Swal.fire('Guardado', 'Entrada actualizada con éxito', 'success')
-                this.$router.push('/chofer');
+                this.$router.push('/pasajero');
             }
         }
     },

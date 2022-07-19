@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-    <a class="navbar-brand">Bus Agency<i class="fa fa-bus m-2"></i></a>
+    <a class="navbar-brand" style="margin-left:10px;">Agency<i class="fa fa-bus m-2 fa-1x"></i></a>
     <button
       class="navbar-toggler"
       type="button"
@@ -18,16 +18,16 @@
           <router-link class="btn btn-outline-success" to="/">Home</router-link>
         </li>
         <li>
-          <router-link class="btn btn-outline-success" to="/bus">Bus manager</router-link>
+          <router-link class="btn btn-outline-success" to="/bus">Bus módulo</router-link>
         </li>
         <li >
-          <router-link class="btn btn-outline-success" to="/chofer">Chofer manager</router-link>
+          <router-link class="btn btn-outline-success" to="/chofer">Chofer módulo</router-link>
         </li>
          <li>
-          <router-link class="btn btn-outline-success" to="/pasajero">Pasajero manager</router-link>
+          <router-link class="btn btn-outline-success" to="/pasajero">Pasajero módulo</router-link>
         </li>
          <li >
-          <router-link class="btn btn-outline-success" to="/trayecto">Trayecto manager</router-link>
+          <router-link class="btn btn-outline-success" to="/trayecto">Trayecto módulo</router-link>
         </li>
       </ul>
     </div>

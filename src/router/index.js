@@ -11,12 +11,25 @@ import AddChofer from '../views/chofer/AddChofer.vue';
 import EditChofer from '../views/chofer/EditChofer.vue'; 
 import ChoferManager from '../views/chofer/ChoferManager.vue'; 
 
+import AddTrayecto from '../views/trayecto/AddTrayecto.vue'; 
+import EditTrayecto from '../views/trayecto/EditTrayecto.vue'; 
+import TrayectoManager from '../views/trayecto/TrayectoManager.vue'; 
+
+import AddPasajero from '../views/pasajero/AddPasajero.vue'; 
+import EditPasajero from '../views/pasajero/EditPasajero.vue'; 
+import PasajeroManager from '../views/pasajero/PasajeroManager.vue'; 
+
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component:HomeView
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'pageNotFound',
+    component: PageNotFound
   },
   {
     path: '/bus',
@@ -33,11 +46,7 @@ const routes = [
     name: 'editBus',
     component: EditBus
   },
-  {
-    path: '/:pathMatch(.*)*',
-    name: 'pageNotFound',
-    component: PageNotFound
-  },
+  
   {
     path: '/chofer',
     name: 'choferManager',
@@ -53,7 +62,36 @@ const routes = [
     name: 'editChofer',
     component: EditChofer
   },
-  
+  {
+    path: '/trayecto',
+    name: 'trayectoManager',
+    component: TrayectoManager
+  },
+  {
+    path: '/trayecto/add',
+    name: 'addTrayecto',
+    component: AddTrayecto
+  },
+  {
+    path: '/trayecto/edit/:trayectoId',
+    name: 'editTrayecto',
+    component: EditTrayecto
+  },
+  {
+    path: '/pasajero',
+    name: 'pasajeroManager',
+    component: PasajeroManager
+  },
+  {
+    path: '/pasajero/add',
+    name: 'addPasajero',
+    component: AddPasajero
+  },
+  {
+    path: '/pasajero/edit/:pasajeroId',
+    name: 'editPasajero',
+    component: EditPasajero
+  },
 ]
 
 const router = createRouter({
